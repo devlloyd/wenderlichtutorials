@@ -1,4 +1,5 @@
 //: Playground - noun: a place where people can play
+//https://www.raywenderlich.com/134411/arc-memory-management-swift
 
 import UIKit
 
@@ -67,6 +68,11 @@ class CarrierSubscription {
     let countryCode: String
     let number: String
     unowned let user: User
+    lazy var completePhoneNumber: () -> String = {
+        [unowned self] in
+        return self.countryCode + " " + self.number
+    }
+            //"The property is declared with lazy, meaning that it will not be assigned until it’s used the first time. This is required because it’s using self.countryCode and self.number, which aren’t available until after the initializer runs."
     
     init(name: String, countryCode: String, number: String, user: User) {
         self.name = name
@@ -88,4 +94,5 @@ do {
     let iPhone = Phone(model: "iPhone 6s Plus")
     user1.add(phone: iPhone)
     let subscription1 = CarrierSubscription(name:"TelBel", countryCode: "0032", number: "31415926", user: user1)
+    print(subscription1.completePhoneNumber())
 }
