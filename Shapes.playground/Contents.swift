@@ -1,5 +1,8 @@
 import Foundation
 
+
+///////////ENUMS//////////
+
 /*
 enum ColorName: String {
     case black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua
@@ -49,5 +52,56 @@ enum Math {
     static let phi = 1.6180339887498948482 // golden mean
 }
 
+//Enumerations are great for picking items from a list of well-known things, such as days of the week, faces of a coin or states in a state machine.
+
+//New enum cases cannot be added later in an extension.
 
 
+///////////STRUCTS//////////
+
+protocol Drawable {
+    func draw(context: DrawingContext)
+}
+
+protocol DrawingContext {
+    func draw(circle: Circle)
+    // more primitives will go here ...
+}
+
+struct Circle : Drawable {
+    var strokeWidth = 5
+    var strokeColor = CSSColor.named(.red)
+    var fillColor = CSSColor.named(.yellow)
+    var center = (x: 80.0, y: 160.0)
+    var radius = 60.0
+    
+    // Adopting the Drawable protocol.
+    
+    func draw(context: DrawingContext) {
+        context.draw(self)
+    }
+}
+
+
+var document = SVGDocument()
+
+let rectangle = Rectangle()
+document.append(rectangle)
+
+let circle = Circle()
+document.append(circle)
+
+let htmlString = document.htmlString
+print(htmlString)
+
+import WebKit
+import PlaygroundSupport
+URLCache.shared = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
+let view = WKWebView(frame: CGRect(x: 0, y: 0, width: 250, height: 250))
+view.loadHTMLString(htmlString, baseURL: nil)
+PlaygroundPage.current.liveView = view
+
+
+
+
+//Structs work a lot like classes with a couple of key differences. Perhaps the biggest difference is that structs are value types and classes are reference types.
